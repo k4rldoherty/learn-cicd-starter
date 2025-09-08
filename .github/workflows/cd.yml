@@ -20,3 +20,16 @@ jobs:
 
       - name: Run build script
         run: ./scripts/buildprod.sh
+
+      - name: Authenticate with google cloud
+        uses: google-github-actions/auth@v2
+        with:
+        credentials-json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Set up google cloud sdk
+        uses: google-github-actions/setup-gcloud@v3
+
+      - name: Deploy to artifact registry
+        run: gcloud builds submit --tag europe-west2-docker.pkg.dev/notely-471510/notely-ar-repo/karlpjd/notely:latest .
+
+
